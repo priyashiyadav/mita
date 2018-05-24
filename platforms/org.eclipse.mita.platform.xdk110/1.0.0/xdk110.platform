@@ -512,8 +512,68 @@ connectivity named-singleton BLE {
 
 }
 
+connectivity named-singleton SensorServices {
+	generator "org.eclipse.mita.platform.xdk110.connectivity.SensorServicesGenerator"
+	
+	/**
+	 * The underlying transport connectivity we use to send the data out. .
+	 */
+	required configuration-item transport : BLE
+	
+	/**
+	 * Creates a signal for accelerometer sensor service.
+	 */
+	signal accelerometer_sensor_service(x_axis : int16, y_axis: int16, z_axis: int16): array<int16>	
+	
+	/**
+	 * Creates a signal for gyro sensor service.
+	 */
+	signal gyro_sensor_service(x_axis : int16, y_axis: int16, z_axis: int16): array<int16>	
+	
+	/**
+	 * Creates a signal for light sensor service.
+	 */
+	signal light_sensor_service(light_sensor_millilux : uint32_t): uint32_t
+	
+	/**
+	 * Creates a signal for noise sensor service.
+	 */
+	signal noise_sensor_service(noise_sensor_dbspl : uint8_t): uint8_t
+	
+	/**
+	 * Creates a signal for magnetometer sensor service.
+	 */
+	signal magnetometer_sensor_service(x_axis : int16, y_axis : int16, z_axis : int16, resistance : int16_t): array<int16>	
+	
+	/**
+	 * Creates a signal for environmental sensor service.
+	 */
+	signal environmental_sensor_service(pressure : uint32, temperature : int32, humidity : uint32 ): array<uint32>	
+	
+	/**
+	 * Creates a signal for high priority data service.
+	 */
+	signal high_priority_data(accel_x_axis : int16, accel_y_axis : int16, accel_z_axis : int16, gyro_x_axis : int16, gyro_y_axis : int16, gyro_z_axis : int16 ): array<int16 >
+	
+	/**
+	 * Creates a signal for low priority data service.
+	 */
+	signal low_priority_data_message1(message_ID : 0x01 , light_sensor : uint32_t, noise_sensor : uint8_t, pressure : uint32, temperature : int32, humidity : uint32, sd_card_detect_status : bool, button_status : bool ): array<uint32 >
+	
+	/**
+	 * Creates a signal for low priority data service.
+	 */
+	signal low_priority_data_message2(message_ID : 0x02, mag_x_axis : int16 , mag_y_axis : int16, mag_z_axis : int16, mag_resistance : int16, led_red: bool, led_yellow :bool, led_orange: bool): array<int16>
+	
+	/**
+	 * Creates a signal for control xdk service.
+	 */
+	signal control_xdk_service(start_sensor_sampling_and_notifications : uint8, change_sensor_sampling_rate : uint32, reboot_xdk : uint8, get_firmware_version : uint32 ): array<uint32>
+	
+}
+
 /**
- * Senses actuation of a physical button.
+ * Senses actuation of a physical button.u
  */
 sensor Button {
 	generator "org.eclipse.mita.platform.xdk110.sensors.ButtonGenerator"
@@ -755,6 +815,7 @@ platform XDK110 {
 	
 	has I2C
 	has BLE
+	has SensorServices
 	has LED
 	has WLAN
 	has MQTT
